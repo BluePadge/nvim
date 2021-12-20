@@ -26,9 +26,9 @@ return require('packer').startup(function(use)
   -- java lsp
   -- use 'mfussenegger/nvim-jdtls'
   -- dap support
-  use 'mfussenegger/nvim-dap'
-  use 'rcarriga/nvim-dap-ui'
-  use 'theHamsta/nvim-dap-virtual-text'
+  -- use 'mfussenegger/nvim-dap'
+  -- use 'rcarriga/nvim-dap-ui'
+  -- use 'theHamsta/nvim-dap-virtual-text'
   -- treesitter config
   use 'nvim-treesitter/nvim-treesitter'
   -- show scope in code with treesitter
@@ -36,7 +36,7 @@ return require('packer').startup(function(use)
   -- auto pairs
   use 'windwp/nvim-autopairs'
   -- auto tags
-  use 'windwp/nvim-ts-autotag'
+  -- use 'windwp/nvim-ts-autotag'
   -- surround with
   use 'blackCauldron7/surround.nvim'
   -- comment

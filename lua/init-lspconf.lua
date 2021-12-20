@@ -29,7 +29,7 @@ end
 local capabilities = vim.lsp.protocol.make_client_capabilities()
 capabilities = require('cmp_nvim_lsp').update_capabilities(capabilities)
 
-local servers = { 'clangd', 'pyright', 'gopls', 'tsserver' }
+local servers = { 'clangd', 'pyright' }
 for _, lsp in ipairs(servers) do
   nvim_lsp[lsp].setup({
     on_attach = on_attach,
@@ -62,19 +62,6 @@ nvim_lsp.sumneko_lua.setup({
       },
     },
   },
-})
-
-nvim_lsp.html.setup({
-  cmd = { "vscode-html-languageserver", "--stdio" },
-  filetypes = {"html", "htmldjango"},
-  on_attach = on_attach,
-  capabilities = capabilities
-})
-
-nvim_lsp.cssls.setup({
-  cmd = { "vscode-css-languageserver", "--stdio" },
-  on_attach = on_attach,
-  capabilities = capabilities
 })
 
 nvim_lsp.jsonls.setup({
