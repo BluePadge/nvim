@@ -24,7 +24,7 @@ return require('packer').startup(function(use)
   -- lsp UI staffs
   use 'tami5/lspsaga.nvim'
   -- java lsp
-  use 'mfussenegger/nvim-jdtls'
+  -- use 'mfussenegger/nvim-jdtls'
   -- dap support
   use 'mfussenegger/nvim-dap'
   use 'rcarriga/nvim-dap-ui'
