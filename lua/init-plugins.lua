@@ -21,6 +21,7 @@ return require('packer').startup(function(use)
   use 'saadparwaiz1/cmp_luasnip'
   -- lsp support
   use 'neovim/nvim-lspconfig'
+  use 'williamboman/nvim-lsp-installer'
   -- lsp UI staffs
   use 'tami5/lspsaga.nvim'
   -- java lsp

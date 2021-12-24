@@ -1,4 +1,5 @@
 local nvim_lsp = require('lspconfig')
+local lsp_installer = require("nvim-lsp-installer")
 local on_attach = function(client, bufnr)
   local function buf_set_keymap(...) vim.api.nvim_buf_set_keymap(bufnr, ...) end
   local function buf_set_option(...) vim.api.nvim_buf_set_option(bufnr, ...) end
@@ -29,43 +30,36 @@ end
 local capabilities = vim.lsp.protocol.make_client_capabilities()
 capabilities = require('cmp_nvim_lsp').update_capabilities(capabilities)
 
-local servers = { 'clangd', 'pyright' }
-for _, lsp in ipairs(servers) do
-  nvim_lsp[lsp].setup({
-    on_attach = on_attach,
-    capabilities = capabilities
-  })
-end
+-- Register a handler that will be called for all installed servers.
+-- Alternatively, you may also register handlers on specific server instances instead (see example below).
+lsp_installer.on_server_ready(function(server)
+    local opts = {}
 
--- setup for lua language server
-nvim_lsp.sumneko_lua.setup({
-  cmd = {'lua-language-server', '-E', '/usr/share/lua-language-server/main.lua'},
-  on_attach = on_attach,
-  capabilities = capabilities,
-  settings = {
-    Lua = {
-      runtime = {
-        version = 'LuaJIT',
-        path = vim.split(package.path, ';'),
-      },
-      diagnostics = {
-        globals = {'vim'},
-      },
-      workspace = {
-        library = {
-          [vim.fn.expand('$VIMRUNTIME/lua')] = true,
-          [vim.fn.expand('$VIMRUNTIME/lua/vim/lsp')] = true,
-        },
-      },
-      telemetry = {
-        enable = false,
-      },
-    },
-  },
+    -- (optional) Customize the options passed to the server
+    -- if server.name == "tsserver" then
+    --     opts.root_dir = function() ... end
+    -- end
+
+    if server.name == "jsonls" then
+      local jsonls_opts = require("lsp.settings.jsonls")
+      opts = vim.tbl_deep_extend("force", jsonls_opts, opts)
+     end
+     if server.name == "sumneko_lua" then
+      local sumneko_opts = require("lsp.settings.sumneko_lua")
+      opts = vim.tbl_deep_extend("force", sumneko_opts, opts)
+     end
+    -- This setup() function is exactly the same as lspconfig's setup function.
+    -- Refer to https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md
+    server:setup(opts)
+end)
+
+lsp_installer.settings({
+    ui = {
+        icons = {
+            server_installed = "✓",
+            server_pending = "➜",
+            server_uninstalled = "✗"
+        }
+    }
 })
 
-nvim_lsp.jsonls.setup({
-  cmd = { "vscode-json-languageserver", "--stdio" },
-  on_attach = on_attach,
-  capabilities = capabilities
-})
